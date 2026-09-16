@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: ai-controls-overview.html 
+keywords: AI controls, generative AI, AI security, Ask Me assistant, latency analysis, EMS event analysis, error log analysis, Amazon Bedrock, AI diagnostics 
+summary: NetApp Workload Factory incluye funciones de IA generativa que aceleran el diagnóstico, mientras aplican controles de seguridad para el acceso a modelos, el alcance de los datos y el comportamiento en tiempo de ejecución. 
+---
+= Conoce los controles de IA en NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory incluye funciones de IA generativa que aceleran el diagnóstico, mientras aplican controles de seguridad para el acceso a modelos, el alcance de los datos y el comportamiento en tiempo de ejecución.
+
+Workload Factory habilita el diagnóstico mediante IA de forma predeterminada. Puedes desactivar las funciones de IA generativa en cualquier momento a través de la configuración de *Administración* de Workload Factory. link:https://docs.netapp.com/us-en/workload-setup-admin/manage-genai-features.html["Obtén más información sobre cómo gestionar las funciones de GenAI."^]
+
+
+
+[[security-scoped-ai-feature-overview]]
+== Descripción general de las funciones de IA centradas en la seguridad
+
+Workload Factory aplica actualmente la IA generativa a las siguientes funciones:
+
+* Asistente «Ask Me» (RAG con documentación seleccionada de NetApp y respuestas respaldadas por fuentes)
+* Análisis de latencia
+* Análisis de eventos de EMS
+* Análisis del registro de errores
+
+
+
+
+[[aws-bedrock-overview-for-ai-diagnostics]]
+== Descripción general de AWS Bedrock para diagnósticos de IA
+
+Workload Factory utiliza Amazon Bedrock para la inferencia de IA. La inferencia se ejecuta en tu cuenta de AWS, con las credenciales y el perfil de inferencia que hayas configurado.
+
+
+
+[[related-information]]
+== Información relacionada
+
+* link:amazon-bedrock-opt-in.html["Habilitación de Amazon Bedrock para los diagnósticos de IA de NetApp Workload Factory"]
+* link:ai-tool-boundaries.html["Límites de las herramientas de IA para NetApp Workload Factory"]
+* link:ai-model-parameters-billing.html["Parámetros del modelo de IA y facturación para NetApp Workload Factory"]
+

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: account-deletion.html 
+keywords: account deletion, data removal, offboarding, file system deletion, credential deletion, link deletion, notification channel deletion, IAM role deletion, Lambda link deletion, CloudWatch monitoring stack deletion 
+summary: La eliminación de una cuenta no es una operación de autoservicio. Es un flujo de baja que involucra tanto el servicio Workload Factory como los recursos de tu cuenta de AWS. 
+---
+= NetApp eliminación de la cuenta de Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+La eliminación de la cuenta no es una operación de autoservicio; es un proceso de baja que implica tanto el servicio Workload Factory como los recursos en tu cuenta de AWS. La limpieza incluye eliminar de forma segura cualquier dato asociado con la cuenta de Workload Factory, los sistemas de archivos FSx for ONTAP, las credenciales, los enlaces, los canales de notificación y los recursos relacionados de IAM, AWS Lambda y Amazon CloudWatch. La operación es irreversible.
+
+Cuando necesites eliminar tu cuenta de Workload Factory, debes link:get-help.adoc["Ponte en contacto con el soporte de NetApp."]

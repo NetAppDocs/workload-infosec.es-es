@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ask-me-access-control.html 
+keywords: Ask Me access control, authentication, JWT, secrets vault, credential protection, log scrubbing, CORS, non-root container, user identity scoping 
+summary: En NetApp Workload Factory, la seguridad de acceso a Ask Me se centra en sesiones autenticadas, la responsabilidad a nivel de usuario y la gestión de secretos protegidos durante las operaciones en tiempo de ejecución. 
+---
+= Control de acceso de Ask Me para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+En NetApp Workload Factory, la seguridad de acceso a Ask Me se centra en sesiones autenticadas, responsabilidad a nivel de usuario y gestión protegida de secretos durante las operaciones en tiempo de ejecución. Los controles de autenticación validan cada sesión y asocian las interacciones con un usuario específico. Las credenciales confidenciales se recuperan de un almacén de secretos gestionado en tiempo de ejecución y se ocultan en los registros. El servicio también aplica controles de infraestructura, incluyendo la ejecución de contenedores sin privilegios de root y una lista restringida de permitidos para CORS.
+
+
+
+[[authentication]]
+== Autenticación
+
+* Autenticación mediante JWT firmado con validación criptográfica (incluyendo comprobaciones de destinatario, emisor y algoritmo como RS256)
+* Autenticación gestionada por middleware en el límite del servicio
+* Delimitar el ámbito de identidad del usuario para que las interacciones se puedan atribuir a un usuario concreto
+
+
+
+
+[[credential-protection-and-secret-handling]]
+== Protección de credenciales y gestión de secretos
+
+* Almacenamiento seguro en un almacén de secretos: las credenciales confidenciales que utiliza el servicio se almacenan en un almacén de secretos gestionado y se recuperan en tiempo de ejecución. No se almacena ningún secreto en el código de la aplicación, en los archivos de configuración ni en las imágenes de contenedor.
+* Limpieza de registros: los valores sensibles (credenciales, tokens, contraseñas, claves de acceso, certificados) se eliminan de los registros antes de que se escriban.
+
+
+
+
+[[infrastructure-security]]
+== Seguridad de la infraestructura
+
+* Ejecución de contenedores sin privilegios de root
+* CORS restringido a una lista explícita de dominios de confianza NetApp
+

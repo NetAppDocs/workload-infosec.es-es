@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: ontap-execution-options.html 
+keywords: ONTAP execution options, Lambda link, NetApp Console Agent, VPC, outbound-only connectivity, network boundaries, credential boundaries, auditability, lifecycle management 
+summary: Algunos flujos de trabajo de NetApp Workload Factory requieren operaciones nativas de ONTAP que no están disponibles a través de las API de AWS. Workload Factory ofrece dos opciones de ejecución que mantienen estas operaciones dentro de los límites de tu cuenta de AWS. 
+---
+= Opciones de ejecución de ONTAP para NetApp Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Algunos flujos de trabajo de NetApp Workload Factory requieren operaciones nativas de ONTAP que no están disponibles a través de las API de AWS. Workload Factory ofrece dos opciones de ejecución que mantienen estas operaciones dentro de los límites de tu cuenta de AWS: un enlace Lambda que ejecuta operaciones de ONTAP desde dentro de tu VPC y un NetApp Console Agent que utiliza conectividad solo de salida desde una instancia de EC2. Ambas opciones te permiten realizar las operaciones de ONTAP necesarias mientras mantienes las decisiones sobre red, credenciales y ciclo de vida dentro de tu modelo de seguridad.
+
+
+
+[[execution-options]]
+== Opciones de ejecución
+
+Enlace de Lambda (AWS Lambda en tu VPC):: Ejecuta diagnósticos ONTAP REST y ONTAP CLI de solo lectura desde tu VPC, sin exponer ONTAP públicamente.
+NetApp Console Agent (EC2 en tu VPC, solo salida):: Ejecuta operaciones ONTAP a través de un proxy, en las que el agente inicia las conexiones salientes y Workload Factory nunca inicia conexiones entrantes hacia el agente.
+
+
+
+
+[[security-considerations]]
+== Consideraciones de seguridad
+
+* Límites de red: confirma los puertos de salida necesarios (443/22) y los destinos.
+* Límites de las credenciales: decide si las credenciales de ONTAP se almacenan en Workload Factory (con cifrado de envoltura) o se consultan desde AWS Secrets Manager.
+* Auditabilidad: confirma los registros operativos de la actividad y los fallos de los componentes.
+* Gestión del ciclo de vida: confirma cómo ocurren las actualizaciones y la eliminación.
+
+
+
+
+[[related-information]]
+== Información relacionada
+
+* link:lambda-link-overview.html["Descripción general de Lambda link para NetApp Workload Factory"]
+* link:connectivity-trust-paths.html["Vías de conectividad y confianza para NetApp Workload Factory"]
+* link:encryption-key-management.html["Cifrado y gestión de claves para NetApp Workload Factory"]
+

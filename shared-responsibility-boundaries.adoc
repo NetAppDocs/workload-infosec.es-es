@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: shared-responsibility-boundaries.html 
+keywords: shared responsibility, NetApp responsibilities, AWS responsibilities, customer responsibilities, IAM roles, VPC controls, credential governance, encryption, evidence to capture 
+summary: 'La responsabilidad de seguridad de NetApp Workload Factory se comparte entre NetApp (operación SaaS), AWS (infraestructura en la nube y servicios gestionados) y tú (configuración del cliente).' 
+---
+= Límites de responsabilidad compartida para NetApp Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory tiene una responsabilidad de seguridad compartida entre NetApp (operación SaaS), AWS (infraestructura en la nube y servicios gestionados) y tú (configuración del cliente). Entender dónde empiezan y terminan las responsabilidades de cada parte te ayuda a configurar correctamente tu entorno de AWS y evitar brechas de seguridad. Estos límites aclaran qué opera NetApp, qué protege AWS y qué debes configurar y mantener tú mismo.
+
+
+
+[[netapp-responsibilities-service-side]]
+== NetApp responsabilidades (lado del servicio)
+
+NetApp se encarga de operar y asegurar la plataforma SaaS Workload Factory. Esto incluye la gestión del lado del servicio de las referencias de configuración almacenadas y los datos operativos.
+
+
+
+[[aws-responsibilities-cloud-platform]]
+== Responsabilidades de AWS (plataforma en la nube)
+
+AWS es responsable de la seguridad de la infraestructura en la nube y de los servicios gestionados que utilizan tu implementación y tus flujos de trabajo (por ejemplo, IAM/STS, FSx for ONTAP, CloudWatch, KMS, Secrets Manager, CloudFormation, Lambda y los componentes básicos de red).
+
+
+
+[[customer-responsibilities-your-configuration]]
+== Responsabilidades del cliente (tu configuración)
+
+Eres responsable de:
+
+* Roles de AWS IAM, políticas de confianza y permisos de privilegios mínimos
+* Controles de VPC (subredes, grupos de seguridad, enrutamiento, endpoints y egress)
+* Gobernanza de credenciales (incluidas las credenciales de ONTAP si así lo requieren tus flujos de trabajo)
+* Decisiones relativas al cifrado y la gestión de claves (por ejemplo, claves KMS opcionales gestionadas por el cliente para FSx for ONTAP)
+* Supervisión, alertas, políticas de retención y procesos de respuesta ante incidentes
+
+
+
+
+[[evidence-to-capture]]
+== Evidencia que hay que recopilar
+
+* Relación de confianza de roles de IAM (incluida la condición de external ID)
+* Selección del nivel de permisos de IAM y artefactos de políticas
+* Decisión sobre los límites de la red (solo API de AWS vs un componente de ejecución de VPC como Lambda link)
+* Decisiones sobre la observabilidad y expectativas de retención
+* Decisión sobre la activación de la IA (los diagnósticos de IA están activados por defecto a menos que se desactiven explícitamente)
+

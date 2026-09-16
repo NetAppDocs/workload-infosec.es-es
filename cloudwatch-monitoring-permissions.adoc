@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: cloudwatch-monitoring-permissions.html 
+keywords: CloudWatch monitoring permissions, monitoring stack, file system metrics, CloudWatch alarms, CloudWatch dashboards, Amazon SNS, event logs, ONTAP credentials, secretsmanager 
+summary: Los permisos de supervisión de CloudWatch son opcionales en NetApp Workload Factory y solo se aplican cuando implementas la pila de supervisión independiente. 
+---
+= Permisos de supervisión de Amazon CloudWatch para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Los permisos de supervisión de Amazon CloudWatch son opcionales en NetApp Workload Factory y solo se aplican cuando despliegas la pila de supervisión independiente. La pila de supervisión proporciona visibilidad operativa al recopilar métricas del sistema de archivos, publicar registros de eventos, gestionar paneles y alarmas de CloudWatch y enviar notificaciones de alerta a través de Amazon SNS. La pila también requiere acceso para recuperar las credenciales de ONTAP cuando se necesiten para la supervisión.
+
+
+
+[[required-cloudwatch-monitoring-permissions]]
+== Permisos necesarios de supervisión de CloudWatch
+
+Se requieren los siguientes permisos para la pila de monitorización opcional:
+
+[cols="2,3"]
+|===
+| Permiso | Propósito 
+
+
+| fsx:Describe* / fsx:ListTagsForResource | Recopila métricas del sistema de archivos 
+
+
+| cloudwatch:PutMetricData / cloudwatch:PutDashboard / cloudwatch:PutMetricAlarm / cloudwatch:DescribeAlarms / cloudwatch:Delete* | Gestiona paneles de control y alarmas 
+
+
+| registros:CreateLogGroup / registros:CreateLogStream / registros:PutLogEvents | Publicar registros de eventos 
+
+
+| sns:Publish | Enviar notificaciones de alerta 
+
+
+| secretsmanager:GetSecretValue | Recupera las credenciales de ONTAP para la supervisión 
+|===

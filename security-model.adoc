@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: security-model.html 
+keywords: security model, shared responsibility, IAM assume-role, STS credentials, ONTAP-native operations, VPC execution components, observability, data handling 
+summary: NetApp Workload Factory es un plano de control SaaS que te ayuda a gestionar y optimizar las cargas de trabajo que se ejecutan en Amazon FSx for NetApp ONTAP en tu entorno de AWS. 
+---
+= Conoce el modelo de seguridad de NetApp Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory es un plano de control SaaS que te ayuda a gestionar y optimizar las cargas de trabajo que se ejecutan en Amazon FSx for NetApp ONTAP en tu entorno de AWS. Los resultados en materia de seguridad dependen de las responsabilidades compartidas entre NetApp, AWS y tu organización.
+
+
+
+[[high-level-security-model]]
+== Modelo de seguridad a grandes rasgos
+
+* Workload Factory utiliza un modelo de asumir rol de IAM para obtener credenciales temporales de AWS STS para llamar a las API de AWS en tu cuenta.
+* Algunos flujos de trabajo requieren operaciones nativas de ONTAP que no están disponibles a través de las API de AWS; puedes ejecutar esas operaciones dentro de tu VPC utilizando componentes de ejecución implementados por el cliente (por ejemplo, Lambda link).
+* Las señales de observabilidad (métricas, telemetría y registros operativos) facilitan la supervisión operativa y las investigaciones.
+
+
+
+
+[[key-review-questions]]
+== Preguntas clave de la revisión
+
+* ¿Qué acceso necesita Workload Factory a tu cuenta de AWS (confianza de rol + permisos)?
+* ¿Qué vías de ejecución se aplican a los flujos de trabajo que tienes previstos (solo API de AWS u operaciones nativas de ONTAP a través de un componente de VPC)?
+* ¿Qué categorías de datos se gestionan (configuración/metadatos, registros operativos/eventos, telemetría) y dónde se almacenan?
+* ¿Qué señales de monitorización existen y cuáles son sus características de retención?
+
+
+
+
+[[whats-next]]
+== Qué sigue
+
+* link:shared-responsibility-boundaries.html["Límites de responsabilidad compartida para NetApp Workload Factory"]
+* link:connectivity-trust-paths.html["Vías de conectividad y confianza para NetApp Workload Factory"]
+* link:least-privilege-permissions.html["Niveles de permisos de menor privilegio para NetApp Workload Factory"]
+

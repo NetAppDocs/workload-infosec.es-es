@@ -1,0 +1,166 @@
+---
+sidebar: sidebar 
+permalink: metrics-telemetry.html 
+keywords: metrics, telemetry, CloudWatch metrics, volume-level metrics, file system-level metrics, computed metrics, throughput, retention, DynamoDB 
+summary: NetApp Workload Factory recopila y almacena métricas a nivel de volumen y de sistema de archivos en AWS CloudWatch para ofrecerte visibilidad operativa sobre el rendimiento y la capacidad del almacenamiento. 
+---
+= Métricas y telemetría para NetApp Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory recopila y almacena métricas a nivel de volumen y de sistema de archivos en AWS CloudWatch para darte visibilidad operativa sobre el rendimiento y la capacidad del almacenamiento. Las métricas calculadas, como el rendimiento, se derivan de estos valores recopilados. Conoce las definiciones de las métricas, la frecuencia de recopilación, el comportamiento de actualización y los detalles de retención.
+
+
+
+[[metrics-included]]
+== Métricas incluidas
+
+NetApp Workload Factory utiliza estas métricas para los registros operativos y eventos:
+
+* Métricas de CloudWatch a nivel de volumen (recopiladas por volumen)
+* Métricas a nivel del sistema de archivos de CloudWatch (recogidas por sistema de archivos)
+* Métricas calculadas
+* Calendario de recogida y retención
+
+
+
+
+[[about-operational-metrics]]
+== Acerca de las métricas operativas
+
+Las métricas calculadas utilizan esta fórmula:
+
+* Rendimiento (bytes/segundo) = (NetworkSentBytes + NetworkReceivedBytes) / periodo
+
+
+Comportamiento de actualización:
+
+* Las métricas de volumen y clúster se actualizan cada 12 horas.
+* Las métricas de latencia se actualizan cada 20 minutos.
+* Los elementos de DynamoDB caducan automáticamente después de 14 días.
+
+
+
+
+[[about-telemetry-data-collection]]
+== Acerca de la recopilación de datos de telemetría
+
+* OpenTelemetry trazas exportadas a través de OTLP HTTP a SigNoz (observabilidad interna)
+* Medición del uso de la IA (recuento de tokens, costes de los modelos) almacenada en AWS Timestream
+* NetApp Console registros de auditoría (nombre de la acción, estado, metadatos de la solicitud/respuesta, marcas de tiempo)
+
+
+
+
+[[volume-level-cloudwatch-metrics-collected-per-volume]]
+== Métricas de CloudWatch a nivel de volumen (recopiladas por volumen)
+
+[cols="2,2,1,3"]
+|===
+| Métrica | Nombre de AWS CloudWatch | Unidad | Qué mide 
+
+
+| Capacidad de almacenamiento de volumen | StorageCapacity | Bytes | Capacidad total asignada 
+
+
+| Espacio de almacenamiento utilizado | StorageUsed | Bytes | Datos reales almacenados 
+
+
+| Bytes de datos leídos | DataReadBytes | Bytes | Rendimiento de lectura 
+
+
+| Bytes de datos escritos | DataWriteBytes | Bytes | Rendimiento de escritura 
+
+
+| Operaciones de lectura de datos | DataReadOperations | Recuento | IOPS de lectura 
+
+
+| Operaciones de escritura de datos | DataWriteOperations | Recuento | IOPS de escritura 
+
+
+| Operaciones con metadatos | MetadataOperations | Recuento | IOPS de metadatos 
+
+
+| Tiempo de la operación de lectura de datos | DataReadOperationTime | Segundos | Latencia de lectura 
+
+
+| Tiempo de la operación de escritura de datos | DataWriteOperationTime | Segundos | Latencia de escritura 
+
+
+| Tiempo de operación de metadatos | MetadataOperationTime | Segundos | Latencia de metadatos 
+|===
+
+
+[[file-system-level-cloudwatch-metrics]]
+== Métricas a nivel del sistema de archivos de CloudWatch
+
+[cols="2,2,1,3"]
+|===
+| Métrica | Nombre de AWS CloudWatch | Unidad | Qué mide 
+
+
+| Capacidad de almacenamiento SSD | StorageCapacity | Bytes | Capacidad total del nivel SSD 
+
+
+| Almacenamiento SSD utilizado | StorageUsed (nivel SSD) | Bytes | Consumo de nivel SSD 
+
+
+| Pool de capacidad utilizada | StorageUsed (pool de capacidad) | Bytes | Consumo del capacity pool 
+
+
+| Utilización de CPU | Utilización de la CPU | Porcentaje | CPU del servidor de archivos 
+
+
+| Uso de la capacidad del SSD | StorageCapacityUtilization | Porcentaje | Porcentaje de SSD usado 
+
+
+| Uso del rendimiento de red | NetworkThroughputUtilization | Porcentaje | Porcentaje de utilización de la red 
+
+
+| Utilización de IOPS del disco | DiskIopsUtilization | Porcentaje | Porcentaje de IOPS de disco utilizadas 
+
+
+| Utilización del rendimiento del disco | FileServerDiskThroughputUtilization | Porcentaje | Porcentaje de rendimiento del disco utilizado 
+
+
+| Utilización de IOPS de disco (servidor) | FileServerDiskIopsUtilization | Porcentaje | Porcentaje de IOPS utilizados del disco del servidor 
+
+
+| Ahorro gracias a la eficiencia en el almacenamiento | StorageEfficiencySavings | Bytes | Espacio ahorrado por eficiencia 
+
+
+| Red recibida | NetworkReceivedBytes | Bytes | Red de entrada 
+
+
+| Red enviada | NetworkSentBytes | Bytes | Red de salida 
+|===
+
+
+[[collection-schedule-and-retention]]
+== Calendario de recogida y retención
+
+[cols="1,1,1,1,1"]
+|===
+| Intervalo de tiempo | Período de recopilación | Puntos de datos | Almacenamiento | Retención 
+
+
+| 1 día | 24 minutos | ~60 | DynamoDB | 14 días (TTL) 
+
+
+| 1 semana | ~2,8 horas | ~60 | DynamoDB | 14 días (TTL) 
+
+
+| 1 mes | 12 horas | ~60 | DynamoDB | 14 días (TTL) 
+
+
+| 3 meses | ~1,5 días | ~60 | DynamoDB | 14 días (TTL) 
+
+
+| 1 año | ~6 días | ~60 | DynamoDB | 14 días (TTL) 
+|===

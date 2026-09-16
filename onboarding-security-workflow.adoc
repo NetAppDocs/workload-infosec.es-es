@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: onboarding-security-workflow.html 
+keywords: onboarding, security workflow, IAM role, external ID, permission scoping, connectivity setup, AI diagnostics, Lambda link, trust configuration 
+summary: La incorporación a NetApp Workload Factory establece un acceso seguro a tu entorno de AWS antes de que empieces a usar el producto. 
+---
+= NetApp flujo de trabajo de seguridad de incorporación a Workload Factory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+La incorporación a NetApp Workload Factory establece un acceso seguro a tu entorno de AWS antes de que comiences a utilizar el producto. El proceso combina la configuración de confianza de AWS, la delimitación de permisos, la configuración de la conectividad, la verificación de la observabilidad y la activación opcional de diagnósticos de IA.
+
+
+
+[[step-1-decide-your-onboarding-posture]]
+== Paso 1: Decide tu postura de incorporación
+
+* Identifica las cuentas de AWS y los límites del entorno (por ejemplo, separación entre prod y no prod).
+* Identifica los flujos de trabajo necesarios (descubrimiento de solo lectura vs aprovisionamiento vs operaciones nativas de ONTAP).
+* Decide si deseas implementar componentes de ejecución de VPC (por ejemplo, Lambda link) en función de las necesidades del flujo de trabajo.
+* Decide si quieres activar el diagnóstico mediante IA (activado por defecto).
+
+
+.Información relacionada
+* link:credential-types.html["Tipos de credenciales"]
+* link:lambda-link-overview.html["Descripción general de Lambda link"]
+* link:ai-controls-overview.html["Resumen de los controles de IA"]
+
+
+
+
+[[step-2-establish-aws-trust-and-access]]
+== Paso 2: Establece la relación de confianza y el acceso a AWS
+
+. Implementa un rol de IAM en tu cuenta de AWS.
+. Asunción de un rol de gate mediante un identificador externo en la política de confianza.
+. Registra el ARN del rol y el ID externo en Workload Factory.
+
+
+.Información relacionada
+link:aws-account-integration.html["Integración de la cuenta de AWS"]
+
+
+
+[[step-3-apply-least-privilege-permissions]]
+== Paso 3: aplica el principio del mínimo privilegio
+
+. Selecciona el nivel mínimo de permisos que admita tus flujos de trabajo previstos.
+. Comprueba que las políticas de sesión por solicitud limiten las acciones a la operación que se está realizando.
+
+
+.Información relacionada
+link:least-privilege-permissions.html["Niveles de permisos de menor privilegio para NetApp Workload Factory"].
+
+
+
+[[step-4-configure-connectivity-and-vpc-boundaries-as-needed]]
+== Paso 4: Configura la conectividad y los límites de la VPC (según sea necesario)
+
+. Valida las rutas de red necesarias para los endpoints de AWS.
+. Si necesitas operaciones nativas de ONTAP, implementa y verifica la opción de ejecución adecuada en tu VPC.
+
+
+.Información relacionada
+* link:connectivity-trust-paths.html["Vías de conectividad y confianza para NetApp Workload Factory"]
+* link:ontap-execution-options.html["Opciones de ejecución de ONTAP para NetApp Workload Factory"]
+
+
+
+
+[[step-5-verify-observability]]
+== Paso 5: verifica la observabilidad
+
+. Comprueba que las métricas y los datos de telemetría se recopilan y conservan según lo previsto.
+. Asegúrate de que puedes acceder a los registros operativos necesarios para la resolución de problemas y las investigaciones.
+
+
+.Información relacionada
+* link:observability-overview.html["Descripción general de la observabilidad para NetApp Workload Factory"]
+* link:metrics-telemetry.html["Métricas y telemetría para NetApp Workload Factory"]
+
+
+
+
+[[step-6-enable-ai-diagnostics-optional]]
+== Paso 6: activar el diagnóstico mediante IA (opcional)
+
+Los diagnósticos de IA están activados de forma predeterminada. Si los activas, comprueba que cumples los requisitos previos y que los permisos de ámbito se limitan al mínimo necesario.
+
+.Información relacionada
+* link:amazon-bedrock-opt-in.html["Inclusión voluntaria de Bedrock para diagnósticos de IA de NetApp Workload Factory"]
+* link:ai-tool-boundaries.html["Límites de las herramientas de IA para NetApp Workload Factory"]
+

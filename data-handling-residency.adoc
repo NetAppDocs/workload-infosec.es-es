@@ -1,0 +1,339 @@
+---
+sidebar: sidebar 
+permalink: data-handling-residency.html 
+keywords: data handling, data residency, data retention, configuration and metadata, operational logs, telemetry, KMS encryption, audit records, Redis cache 
+summary: NetApp Workload Factory organiza el manejo de datos en categorías que describen los datos operativos que procesa el servicio, cómo encaja cada clase de datos en el modelo de seguridad, dónde se almacenan los datos, cuánto tiempo se retienen y si salen del entorno del cliente. 
+---
+= Gestión y residencia de datos para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory organiza el manejo de datos en categorías que describen los datos de operaciones que procesa el servicio, cómo encaja cada clase de datos en el modelo de seguridad, dónde se almacenan los datos, cuánto tiempo se conservan y si salen del entorno del cliente. Las principales clases de datos incluyen la configuración y los metadatos, los registros y eventos operativos, y la telemetría. Los datos conservados pueden incluir instantáneas de configuración de FSx for ONTAP, referencias de credenciales, datos de uso y coste de IA, registros de auditoría y cachés de respuesta de corta duración. Las ubicaciones de almacenamiento y procesamiento varían según el tipo de datos: parte de la información permanece en la cuenta de AWS del cliente, mientras que otros datos de operaciones se almacenan en la cuenta de NetApp.
+
+
+
+[[data-classes-handled-by-workload-factory]]
+== Clases de datos gestionadas por Workload Factory
+
+Workload Factory gestiona las siguientes clases de datos:
+
+* Configuración y metadatos
+* Registros operativos y eventos
+* Telemetría
+
+
+
+
+[[data-classes-retained-by-workload-factory]]
+== Clases de datos conservadas por Workload Factory
+
+Workload Factory almacena los siguientes datos:
+
+* Instantáneas de configuración de FSx (actualizadas en cada escaneo)
+* Referencias de credenciales de ONTAP o material de credenciales cifrado con el cifrado de envoltura de KMS (dependiendo del modo de credenciales seleccionado)
+* Métricas de EDA
+* CloudFormation plantillas (7 días `Expires` encabezado)
+* Datos sobre el uso y el coste de la IA
+* Registros de auditoría
+* Redis almacena en caché (respuestas de FSx) con un TTL de 20 minutos
+
+
+
+
+[[where-information-is-kept]]
+== Dónde se conserva la información
+
+
+
+[[aws-account]]
+=== Cuenta de AWS
+
+* Las contraseñas de administrador de ONTAP se almacenan en tu AWS Secrets Manager.
+* Amazon Bedrock procesa la inferencia de IA (análisis EMS) utilizando el ARN de tu perfil de inferencia a través de un rol asumido por STS dentro de tu cuenta de AWS.
+
+
+
+
+[[netapp-account]]
+=== Cuenta de NetApp
+
+* Configuraciones de FSx, planes de equilibrio, configuraciones de ARP y límites de uso de IA
+* Credenciales temporales de AWS STS (almacenadas en caché en Redis), cachés de respuestas, bloqueos y estado de la implementación
+* CloudFormation/plantillas de Terraform, descriptores de configuración WAD e informes comprimidos
+* Medición del uso de la IA y métricas de rendimiento del colector
+* Métricas agregadas de EDA
+* Registros de auditoría de acciones
+* OpenTelemetry trazas
+
+
+
+
+[[region-considerations]]
+=== Consideraciones relativas a la región
+
+* Almacenados en regiones donde el servicio Amazon Bedrock está disponible.
+* NetApp internal opera en `us-east-1` y `us-west-2`.
+
+
+
+
+[[how-long-information-is-kept]]
+== Durante cuánto tiempo se conserva la información
+
+Esta sección resume las categorías de retención. Consulta las páginas enlazadas para ver los valores detallados y el comportamiento de la política de retención.
+
+* Retención de credenciales y de credenciales temporales de AWS STS: link:credential-retention.html["Conservación de credenciales para NetApp Workload Factory"]
+* Retención de métricas operativas y de telemetría: link:metrics-telemetry.html["Referencia sobre métricas y telemetría para NetApp Workload Factory"]
+* Conservación de registros de auditoría: gobernada por la política de retención de la NetApp Console (no controlada por Workload Factory)
+
+
+
+
+[[what-information-leaves-the-vpc]]
+== Qué información sale de la VPC
+
+Esta sección resume las categorías de datos salientes. Consulta las páginas enlazadas para obtener más detalles a nivel de protocolo y de funciones.
+
+
+
+[[management-plane-traffic-to-the-workload-factory-service]]
+=== Tráfico del plano de gestión hacia el servicio Workload Factory
+
+En lo que respecta a las operaciones de gestión, la configuración de FSx, los metadatos de los volúmenes, los identificadores de recursos y los comandos operativos fluyen por HTTPS hacia el nivel de servicio de Workload Factory.
+
+
+
+[[audit-records-to-the-netapp-console-audit-service]]
+=== Registros de auditoría en el NetApp Console Audit Service
+
+Cada operación registrada envía la siguiente información:
+
+* `accountId`
+* `actionName`
+* `status`
+* `resourceId`
+* `userId`
+* `requestData`
+* `responseData`
+* `timestamps`
+* `IP address`
+* `workspaceId`
+
+
+
+
+[[ai-analysis-traffic]]
+=== Análisis del tráfico mediante IA
+
+Los eventos del Sistema de Gestión de Emergencias (EMS) de FSx for ONTAP, los datos de latencia y los registros de errores enviados para el diagnóstico mediante IA se transmiten a Amazon Bedrock a través de tu cuenta de AWS utilizando tu perfil de inferencia configurado, así que este tráfico permanece dentro de tu entorno en lugar de llegar a los sistemas de NetApp.
+
+Para obtener más información sobre el análisis del tráfico mediante IA, consulta:
+
+* link:ai-controls-overview.html["Descripción general de los controles de IA para NetApp Workload Factory"]
+* link:amazon-bedrock-opt-in.html["Inclusión voluntaria de Bedrock para diagnósticos de IA de NetApp Workload Factory"]
+* link:ai-tool-boundaries.html["Límites de las herramientas de IA para NetApp Workload Factory"]
+
+
+
+
+[[aws-service-api-traffic]]
+=== Tráfico de la API de servicio de AWS
+
+Consulta link:connectivity-trust-paths.html["conectividad y rutas de confianza para NetApp Workload Factory"].
+
+
+
+[[telemetry-and-metrics-collection]]
+=== Recopilación de telemetría y métricas
+
+Consulta el link:metrics-telemetry.html["Referencia sobre métricas y telemetría"].
+
+
+
+[[configuration-and-metadata-collection-scope]]
+== Ámbito de configuración y recopilación de metadatos
+
+
+
+[[file-system-level]]
+=== Nivel del sistema de archivos
+
+* Configuración del sistema de archivos (tipo de implementación Gen1/Gen2, capacidad de rendimiento, capacidad de almacenamiento, tipo de almacenamiento)
+* Subred preferida, grupos de seguridad, configuración de VPC
+* Metadatos de la clave de cifrado de KMS
+* Etiquetas del sistema de archivos
+* Estado del ciclo de vida del sistema de archivos
+* Configuración de la ventana de mantenimiento
+
+
+
+
+[[volume-level-comprehensive]]
+=== Nivel de volumen (completo)
+
+* Identidad y estado: nombre del volumen, UUID, tipo (rw/dp/ls), estilo (FlexVol/FlexGroup), estado (en línea/fuera de línea/restringido), hora de creación
+* Capacidad: tamaño total, utilizada, disponible, utilizada físicamente, porcentaje utilizado, espacio ocupado por SSD, espacio ocupado por el grupo de capacidad, bytes de datos inactivos/porcentaje
+* Clasificación por niveles: política (all/auto/none/snapshot_only), días mínimos de enfriamiento
+* QoS: nombre de la política de QoS asignada
+* Configuración de NAS: ruta de enlace, asignación de políticas de exportación, permisos UNIX, estilo de seguridad (unix/ntfs/mixto)
+* Instantáneas: tamaño de la reserva de snapshot, porcentaje/espacio utilizado, configuración de autodelete
+* Eficiencia de los datos: tipo/estado de compresión, deduplicación, compactación, ahorro de espacio
+* Tamaño automático: modo (aumentar/aumentar_reducir/desactivado), tamaño mínimo/máximo, umbrales de aumento/reducción
+* SnapLock: tipo (cumplimiento/empresa/sin_snaplock), períodos de retención (mín/máx/por defecto), período de autocommit
+* Clon: volumen primario/instantánea/máquina virtual de almacenamiento, es FlexClone, estado de división
+* Inodos/archivos: máximo posible, máximo configurado, número utilizado
+* Cifrado: estado activado/desactivado
+* Tiempo de acceso: actualización de atime activada/desactivada y periodo de actualización
+* SnapMirror: estado de protección, tipos de destino (nube/ONTAP)
+* FlexGroup reequilibrio: porcentaje de desequilibrio, umbral máximo
+* Movimiento de volumen: agregado de destino, estado del movimiento
+* FlexCache tipo de endpoint: ninguno/caché/origen
+* Etiquetas: etiquetas de volumen a nivel de ONTAP
+
+
+
+
+[[snapshot-data]]
+=== Datos de la instantánea
+
+* Nombre de la instantánea, UUID, hora de creación, hora de caducidad
+* Tamaño en bytes
+* SnapMirror etiqueta
+* SnapLock caducidad y estado de bloqueo
+* Estado (válido/invalid/parcial)
+* Comentarios de los usuarios
+* Políticas de Snapshot: nombre, estado de activación, programación de copias (número, periodo de retención, nombre de la programación, prefijo, etiqueta de SnapMirror)
+
+
+
+
+[[export-policies]]
+=== Políticas de exportación
+
+* Nombre de la política, ID, máquina virtual de almacenamiento asociada
+* Reglas: lista de protocolos (NFS/CIFS/FlexCache), patrones de coincidencia de clientes, reglas de solo lectura, reglas de lectura/escritura, reglas de superusuario, índice/prioridad de reglas
+* SUID, creación de dispositivos, modo chown, asignación de usuarios anónimos, ajustes de seguridad de NTFS para UNIX
+
+
+
+
+[[s3-access-points]]
+=== Puntos de acceso S3
+
+* Estado del ciclo de vida (disponible/creando/eliminando/fallido/mal configurado)
+* Fecha de creación, ARN, alias, nombre
+* Usuario propietario de los archivos y tipo (UNIX/WINDOWS)
+* Configuración de red (acceso a Internet vs acceso a VPC, ID de VPC)
+* Etiquetas AWS
+* Activación del análisis de metadatos, activación del registro en diario, ARN de CloudTrail
+
+
+
+
+[[anti-ransomware-protection-arp]]
+=== Protección contra ransomware (ARP)
+
+Workload Factory recopila tanto el estado de la configuración como los detalles de los eventos:
+
+* Estado por volumen (activado/desactivado/simulación/en pausa)
+* Probabilidad de ataque (ninguna/baja/moderada/alta)
+* Informes de ataques con marcas de tiempo
+* Parámetros de detección: umbrales de extensión de archivo, aumento de la tasa de cambio de nombre %, aumento de la tasa de entropía %, aumento de la tasa de creación/eliminación de archivos %
+* Archivos sospechosos: ruta del archivo, nombre del archivo, formato del archivo, hora de sospecha, volumen asociado
+
+
+
+
+[[replication-snapmirror]]
+=== Replicación / SnapMirror
+
+* UUID de la relación, estado, estado de salud
+* Origen y destino (máquina virtual de almacenamiento, ruta, clúster)
+* Estadísticas de transferencia (bytes transferidos, duración, hora de finalización, estado)
+* Política (nombre, tipo: asíncrono/síncrono/continuo)
+* Ajuste del acelerador
+* Tiempo de retraso
+* Motivos poco saludables (mensaje y código)
+* Errores actuales de transferencia
+
+
+
+
+[[igroups]]
+=== iGroups
+
+* Nombre, UUID, protocolo (FCP/iSCSI/mixto), tipo de sistema operativo
+* Iniciadores (IQN/WWPN), estado de conectividad, hora de la última vez visto
+* Asignaciones de LUN (número de unidad lógica, detalles del LUN)
+
+
+
+
+[[luns]]
+=== LUN
+
+* Nombre, UUID, número de serie, tipo de sistema operativo, estado habilitado
+* Tamaño, espacio utilizado, configuración de thin provisioning
+* Ubicación (volumen, nodo, ruta de la unidad lógica)
+* Configuración de eliminación automática
+* Estado del contenedor, estado asignado, estado de solo lectura
+* Política de calidad de servicio (QoS)
+* Métricas de rendimiento (IOPS, latencia, rendimiento por lectura/escritura/total)
+* Pertenencia a un grupo de coherencia
+
+
+
+
+[[flexcache]]
+=== FlexCache
+
+* Volumen de origen/máquina virtual de almacenamiento/clúster, tamaño de caché, ruta
+* Reescritura activada, estado de la caché DR
+* Configuración del tamaño relativo
+* Rellenar automáticamente las rutas de los directorios
+* Estado de la conexión entre la caché y el origen
+
+
+
+
+[[storage-vm-level]]
+=== Nivel de máquina virtual de almacenamiento
+
+* Nombre, UUID, estado (en ejecución/detenido), subtipo
+* Protocolos habilitados/admitidos (NFS, CIFS, iSCSI, FCP, NVMe, S3)
+* Servidores DNS y dominios
+* Configuración del switch de servicio de nombres (passwd, group, hosts, etc.)
+* Interfaces IP (nombre, dirección IP, servicios)
+* Agregados asignados
+* Estado predeterminado del volumen anti-ransomware
+* Configuración de la aplicación de espacio
+* Relaciones entre iguales (aplicaciones, estado, clúster remoto/máquina virtual de almacenamiento)
+
+
+
+
+[[aggregate-storage-level]]
+=== Nivel de agregado / de almacenamiento
+
+* Nombre del agregado, UUID, estado, estado del RAID
+* Almacenamiento en bloque: número de discos, tamaño de RAID, espacio disponible/ocupado/total, espacio físico ocupado
+* Almacenamiento en la nube utilizado
+* Eficiencia: ratio, uso lógico, ahorro
+* Cifrado, espejo, configuración de SnapLock
+* Métricas de rendimiento (IOPS, latencia, rendimiento)
+
+
+
+
+[[utilization-metrics-eda]]
+=== Métricas de utilización (EDA)
+
+* Frecuencia de recogida: cada 12 horas para capacidad/rendimiento; cada 20 minutos para latencia
+* Granularidad: normalizada a aproximadamente 60 puntos de datos por intervalo de tiempo
+* Detalles de retención y almacenamiento: link:metrics-telemetry.html["Referencia sobre métricas y telemetría"]
+

@@ -1,0 +1,81 @@
+---
+indexpage:
+  title: Seguridad de la información para NetApp Workload Factory
+  summary: Workload Factory incluye directrices sobre seguridad y protección de datos,
+    incluyendo cómo se recopilan, almacenan, conservan y acceden los datos. Utiliza
+    esta referencia para entender la arquitectura, los permisos y la postura de cumplimiento,
+    y para apoyar un proceso de revisión de seguridad y de incorporación más rápido
+    y coherente.
+  keywords: information security, data protection, NetApp, Workload Factory
+  lead: Workload Factory incluye directrices sobre seguridad y protección de datos,
+    incluyendo cómo se recopilan, almacenan, conservan y acceden los datos. Utiliza
+    esta referencia para entender la arquitectura, los permisos y la postura de cumplimiento,
+    y para apoyar un proceso de revisión de seguridad y de incorporación más rápido
+    y coherente.
+  tiles:
+  - title: Empezar
+    links:
+    - title: Conoce la seguridad de la información para NetApp Workload Factory
+      url: "/learn-about-workload-factory-infosec.html"
+    - title: Flujo de trabajo de seguridad de incorporación
+      url: "/onboarding-security-workflow.html"
+  - title: Seguridad y conectividad
+    links:
+    - title: Modelo de seguridad de un vistazo
+      url: "/security-model.html"
+    - title: Cumplimiento normativo y estado de seguridad
+      url: "/compliance-security-posture.html"
+    - title: Vías de conectividad y confianza
+      url: "/connectivity-trust-paths.html"
+  - title: Identidad, credenciales y privilegio mínimo
+    links:
+    - title: Flujo de credenciales de AWS
+      url: "/aws-credential-flow.html"
+    - title: Tipos de credenciales
+      url: "/credential-types.html"
+    - title: Opciones de almacenamiento de credenciales
+      url: "/credential-storage-options.html"
+    - title: Requisitos de privilegios mínimos
+      url: "/least-privilege-permissions.html"
+  - title: Gobernanza de datos, privacidad y ciclo de vida
+    links:
+    - title: Tratamiento y ubicación de los datos
+      url: "/data-handling-residency.html"
+    - title: Cifrado y gestión de claves
+      url: "/encryption-key-management.html"
+  - title: Observabilidad (registros, métricas, telemetría)
+    links:
+    - title: Descripción general de la observabilidad
+      url: "/observability-overview.html"
+    - title: Referencia sobre métricas y telemetría
+      url: "/metrics-telemetry.html"
+  - title: Controles de seguridad para la IA generativa
+    links:
+    - title: Resumen de los controles de IA
+      url: "/ai-controls-overview.html"
+    - title: Adhesión voluntaria a Bedrock para diagnósticos con IA
+      url: "/amazon-bedrock-opt-in.html"
+    - title: Límites de las herramientas de IA
+      url: "/ai-tool-boundaries.html"
+    - title: Parámetros de los modelos de IA y facturación
+      url: "/ai-model-parameters-billing.html"
+  - title: Operaciones de ONTAP y Lambda link
+    links:
+    - title: Descripción general de Lambda link
+      url: "/lambda-link-overview.html"
+    - title: Permisos de IAM de Lambda link
+      url: "/lambda-link-iam-permissions.html"
+  - title: Conocimiento y soporte
+    links:
+    - title: Regístrate para recibir asistencia
+      url: "/register-support.html"
+    - title: Consigue ayuda
+      url: "/get-help.html"
+  - title: Blogs y comunidad
+    links:
+    - title: NetApp Console
+      url: https://www.netapp.com/console
+    - title: NetApp Data Services
+      url: https://www.netapp.com/data-services/
+    - title: Comunidad de NetApp
+      url: https://community.netapp.com/

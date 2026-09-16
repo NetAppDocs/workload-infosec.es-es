@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: ai-model-parameters-billing.html 
+keywords: AI model parameters, Amazon Bedrock billing, AI usage limits, model configuration, inference profile, Claude model, deterministic parameters, cost visibility, AI governance 
+summary: NetApp Workload Factory define la configuración del modelo y los límites de uso y facturación relevantes para la gobernanza de la IA. 
+---
+= Parámetros del modelo de IA y facturación para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory define la configuración del modelo y los límites de uso y facturación relevantes para la gobernanza de la IA. El modelo configurado utiliza parámetros determinísticos y devuelve JSON estructurado para respaldar resultados de análisis consistentes. AWS factura la inferencia de Amazon Bedrock a tu cuenta, mientras que Workload Factory realiza un seguimiento del uso de la IA y proporciona visibilidad mensual de los costes por cuenta. Estas secciones describen los parámetros del modelo y los límites que se aplican al consumo de IA.
+
+
+
+[[model-and-parameters]]
+== Modelo y parámetros
+
+[cols="2,3"]
+|===
+| Parámetro | Valor 
+
+
+| Modelo | Anthropic Claude (utilizando un perfil de inferencia interregional) 
+
+
+| Temperatura | 0 (determinista, sin aleatoriedad) 
+
+
+| Número máximo de tokens de salida | 2.048 
+
+
+| Número máximo de pasos de razonamiento | 15 por análisis 
+
+
+| Formato de salida | JSON estructurado (resumen, gravedad, causa raíz, medidas correctivas) 
+|===
+
+
+[[billing-and-usage-limits]]
+== Límites de facturación y uso
+
+* AWS factura los servicios de inferencia de Bedrock a tu cuenta (tu perfil de inferencia, tus credenciales).
+* Workload Factory realiza un seguimiento interno del uso de la IA.
+* Workload Factory ofrece visibilidad de los costes mensuales por cuenta.
++
+link:https://docs.netapp.com/us-en/workload-fsx-ontap/track-costs.html["Haz un seguimiento de los costes de almacenamiento en NetApp Workload Factory"^]
+
+

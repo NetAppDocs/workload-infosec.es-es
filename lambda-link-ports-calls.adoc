@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: lambda-link-ports-calls.html 
+keywords: Lambda link ports, outbound connectivity, HTTPS, SSH, ONTAP REST API, port 443, port 22, lambda InvokeFunction, health check 
+summary: NetApp Workload Factory utiliza la solicitud de enlace Lambda y los límites de puerto para definir la conectividad de salida necesaria y la invocación autorizada por IAM. 
+---
+= Puertos y llamadas de Lambda link para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory utiliza los límites de solicitud de enlace de Lambda y de puerto para definir la conectividad saliente necesaria y la invocación autorizada por IAM. El enlace admite solicitudes HTTPS al endpoint de gestión de ONTAP, comandos SSH de solo lectura para diagnósticos y comprobaciones de estado. Toda la conectividad es saliente desde el enlace dentro de tu VPC, así que no se requiere conectividad entrante ni endpoints expuestos. Workload Factory invoca el enlace a través de la API de AWS Lambda usando autorización basada en IAM.
+
+
+
+[[request-types]]
+== Tipos de solicitud
+
+* HTTPS (API de REST de ONTAP): hace proxy de las llamadas HTTPS al endpoint de gestión de ONTAP (puerto 443) para operaciones de volúmenes, máquinas virtuales de almacenamiento y clústeres.
+* SSH (ONTAP CLI): ejecuta comandos de solo lectura de la interfaz de línea de comandos de ONTAP en el puerto 22 para diagnósticos y datos de rendimiento.
+* Comprobación de estado: muestra el estado y las funciones compatibles.
+
+
+
+
+[[outbound-network-boundaries]]
+== Límites de la red de salida
+
+[cols="1,1,3,3"]
+|===
+| Dirección | Puerto | Destino | Propósito 
+
+
+| Salida | 443 | Dirección IP de gestión de ONTAP (dentro de tu VPC) | Operaciones de la API de REST 
+
+
+| Salida | 22 | Dirección IP de gestión de ONTAP (dentro de tu VPC) | Comandos de la CLI de SSH 
+
+
+| Salida | 443 | Endpoint de AWS Secrets Manager (opcional) | Recuperación de credenciales al utilizar Secrets Manager 
+|===
+No se requiere conectividad entrante. El enlace no expone ningún punto final. Workload Factory lo invoca usando la API de AWS `lambda:InvokeFunction`.
+
+
+
+[[workload-factory-calls-lambda-link]]
+== Workload Factory llama a Lambda link
+
+Workload Factory llama al enlace Lambda a través de la API de AWS Lambda (`lambda:InvokeFunction` utilizando una autorización basada en IAM.
+
+La carga útil de la invocación contiene:
+
+* punto final de gestión de ONTAP de destino (IP/nombre de host)
+* operación que se debe realizar (ruta de la API de REST o comando SSH)
+* información de autenticación (credenciales integradas o una referencia ARN de Secrets Manager)
+
+
+
+
+[[related-information]]
+== Información relacionada
+
+Para consultar el mapa completo de conectividad entre sistemas, consulta link:connectivity-trust-paths.html["conectividad y rutas de confianza para NetApp Workload Factory"].

@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: aws-account-integration.html 
+keywords: AWS account integration, sts assume role, IAM role, external ID, temporary credentials, cross-account access, confused deputy attack, role trust policy, onboarding 
+summary: Workload Factory utiliza AWS sts AssumeRole para obtener credenciales temporales para tu cuenta de AWS, así que las claves de acceso a AWS a largo plazo no se almacenan en el servicio. 
+---
+= Integración de cuentas de AWS para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Workload Factory utiliza AWS `sts:AssumeRole` para obtener credenciales temporales para tu cuenta de AWS, así que las claves de acceso de AWS a largo plazo no son almacenadas por el servicio. Durante la incorporación, configuras un rol de IAM que Workload Factory puede asumir para operaciones aprobadas de la API de AWS, usando un ID externo para ayudar a evitar el acceso no autorizado entre cuentas. Luego, Workload Factory usa las credenciales de corta duración resultantes en tiempo de ejecución, que AWS caduca automáticamente después de cada sesión.
+
+
+
+[[aws-account-configuration]]
+== Configuración de la cuenta de AWS
+
+Para permitir que Workload Factory acceda a tu cuenta de AWS:
+
+. Implementa un rol de IAM en tu cuenta de AWS (utilizando CloudFormation o de forma manual).
+. Asegúrate de que la política de confianza del rol permita que el service principal de Workload Factory lo asuma, controlado por un ID externo.
+. Utiliza un identificador externo como identificador secreto único (UUID v4) compartido exclusivamente entre el cliente y Workload Factory.
++
+Incorpóralo como condición en la política de confianza de tu rol de IAM (`sts:ExternalId`).
+
++
+El identificador externo evita los ataques de «confused deputy». En un modelo de acceso entre cuentas, un atacante que descubra el ARN de un rol de un cliente no puede asumir ese rol sin poseer también el identificador externo correspondiente. AWS recomienda este patrón para el acceso entre cuentas de terceros. Para obtener más información, consulta la página de documentación de AWS IAM link:https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html["Acceso a cuentas de AWS propiedad de terceros"^].
+
++
+El identificador externo se genera una sola vez durante el proceso de incorporación de credenciales y se almacena cifrado junto con el ARN del rol en una base de datos de Workload Factory.
+
+. Registra el ARN del rol y el ID externo en Workload Factory.
+
+
+
+
+[[runtime]]
+== Duración
+
+Durante la ejecución, Workload Factory asume tu rol de IAM para obtener credenciales de corta duración para cada operación de la API de AWS:
+
+. Workload Factory realiza una llamada a `sts:AssumeRole` con el ARN de tu rol y el ID externo.
+. AWS devuelve credenciales temporales (clave de acceso, clave secreta y token de sesión).
+. Workload Factory utiliza las credenciales temporales para las operaciones de la API de AWS en tu cuenta.
+. Las credenciales caducan automáticamente (por defecto, una hora).
+

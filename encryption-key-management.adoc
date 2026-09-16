@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: encryption-key-management.html 
+keywords: encryption, key management, AWS KMS, encryption at rest, envelope encryption, FSx for ONTAP, credential protection, kms CreateGrant 
+summary: NetApp Workload Factory utiliza el cifrado en reposo y define claramente las responsabilidades en materia de gestión de claves tanto en Workload Factory como en los servicios de AWS. 
+---
+= Cifrado y gestión de claves para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory utiliza cifrado en reposo y define claramente las responsabilidades de gestión de claves tanto en Workload Factory como en los servicios de AWS. Para los sistemas de archivos Amazon FSx for NetApp ONTAP, puedes elegir tu propia clave de AWS KMS o usar la clave predeterminada gestionada por AWS, y FSx for ONTAP realiza las operaciones criptográficas con esa clave. Workload Factory también utiliza cifrado de envolvente para proteger las credenciales de ONTAP almacenadas.
+
+
+
+[[kms-encryption-at-rest-scope-for-fsx]]
+== Ámbito de cifrado en reposo de KMS para FSx
+
+Al crear un sistema de archivos FSx for ONTAP a través de Workload Factory, puedes especificar, si lo deseas, tu propia clave de AWS KMS para el cifrado de datos en reposo. Si no especificas una clave, Workload Factory utiliza la clave FSx predeterminada gestionada por AWS.
+
+Qué está cifrado:: Todos los datos almacenados en los volúmenes de EBS subyacentes que respaldan el sistema de archivos FSx for ONTAP (cifrado en reposo de AWS FSx).
+Titularidad de las claves:: La clave KMS se encuentra en tu cuenta de AWS.
+Permisos necesarios para la selección y el uso de claves:: Workload Factory requiere:
++
+--
+* `kms:DescribeKey`
+* `kms:ListKeys`
+* `kms:ListAliases`
+* `kms:CreateGrant` (para permitir que el servicio FSx for ONTAP utilice la clave)
+
+
+--
+Patrón de acceso clave:: Workload Factory nunca cifra ni descifra directamente los datos con tu clave KMS. Pasa el ID de la clave a la API de Amazon FSx for NetApp ONTAP durante la creación del sistema de archivos; Amazon FSx for NetApp ONTAP realiza las operaciones criptográficas.
+
+
+
+
+[[credential-protection-service-side-envelope-encryption]]
+== Protección de credenciales (cifrado de envoltura del lado del servidor)
+
+Cuando almacenas credenciales de ONTAP (contraseñas de administrador) a través de Workload Factory, las protege usando cifrado de sobre antes de guardarlas de forma permanente.
+
+Método de cifrado:: AES-256-CBC con una clave de cifrado de datos (DEK) única para cada registro de credencial.
+Flujo de cifrado de sobre::
++
+--
+. Se genera una DEK única de 256 bits por cada credencial.
+. El DEK cifra la credencial (contraseña).
+. El propio DEK está cifrado con una clave raíz y se almacena junto con la credencial cifrada.
+. El DEK en texto sin cifrar nunca se almacena.
+
+
+--
+Contexto de cifrado:: Cada clave de datos está vinculada criptográficamente a su registro de credenciales específico, lo que impide la reutilización de la clave en distintos registros.
+Alternativa: AWS Secrets Manager:: En lugar de almacenar contraseñas cifradas en el servicio, puedes guardar las credenciales de ONTAP en AWS Secrets Manager en tu propia cuenta. Workload Factory nunca ve ni almacena la contraseña; pasa el ARN de Secrets Manager a Lambda link, que recupera la contraseña en tiempo de ejecución dentro de tu VPC.
+
+
+
+NOTE: AWS Secrets Manager es obligatorio para las cuentas de GovCloud.

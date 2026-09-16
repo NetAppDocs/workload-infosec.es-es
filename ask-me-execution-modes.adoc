@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: ask-me-execution-modes.html 
+keywords: Ask Me execution modes, tool execution safeguards, ephemeral data sandbox, read-only query enforcement, tool call auditability, output controls, token limit, session scope 
+summary: Workload Factory ofrece varios modos de ejecución para Ask Me, cada uno con diferentes características de seguridad y privacidad. 
+---
+= Modos de ejecución de Ask Me para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory ofrece varios modos de ejecución para Ask Me, cada uno con diferentes características de seguridad y privacidad. Cuando Ask Me utiliza integraciones con herramientas, por ejemplo, al consultar los propios recursos de Workload Factory del cliente, la ejecución de las herramientas se controla mediante medidas de seguridad por capas. La ejecución habilitada por herramientas opera dentro de los permisos del usuario autenticado y aplica límites a la duración y al alcance de cada operación. Los datos recuperados permanecen en un entorno de pruebas de sesión efímero que bloquea el acceso externo y se destruye cuando finaliza la sesión. Los controles independientes de solicitudes y código imponen consultas de solo lectura, mientras que los registros de auditoría capturan la actividad de la herramienta con los valores sensibles ocultos.
+
+
+
+[[tool-execution-safeguards]]
+== Salvaguardas para la ejecución de herramientas
+
+* Las herramientas con ámbito de autorización funcionan dentro de los permisos del usuario autenticado.
+* El tiempo de espera de ejecución de la herramienta limita las operaciones de larga duración.
+* El entorno de pruebas de datos efímeros almacena los datos recuperados por las herramientas en el ámbito de la sesión, bloquea el acceso externo, las operaciones de E/S de archivos, las llamadas de red y la carga de extensiones a nivel del motor, y se elimina cuando finaliza la sesión.
+* La aplicación de consultas de solo lectura valida las consultas generadas mediante una lista de permitidos muy estricta.
+* La seguridad basada en mensajes de aviso y la basada en código se aplican de forma independiente.
+* La herramienta de auditabilidad registra el nombre de la herramienta, los parámetros, las marcas de tiempo y el estado del resultado, con el ocultamiento de los valores confidenciales.
+
+
+
+
+[[output-controls]]
+== Controles de salida
+
+* Aplicación del límite de tokens
+* Salida determinista para operaciones de clasificación o críticas para la seguridad (temperatura 0)
+* Transmisión con finalización anticipada y limpieza
+

@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: ask-me-privacy-availability.html 
+keywords: Ask Me privacy, data handling, ephemeral storage, availability, multi-model fallback, audit logging, knowledge base content, feedback data, isolation controls 
+summary: En NetApp Workload Factory, los controles de privacidad de Ask Me limitan la exposición de datos, mantienen aislado el procesamiento de sesiones y preservan los límites de privacidad en las interacciones de los usuarios. 
+---
+= Consúltame sobre la privacidad y la disponibilidad de NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+En NetApp Workload Factory, los controles de privacidad de Ask Me limitan la exposición de los datos, mantienen aislado el procesamiento de las sesiones y preservan los límites de privacidad en las interacciones de los usuarios. Tus entradas son procesadas por un servicio de IA gestionado que no las utiliza para entrenar ni mejorar modelos base. Los datos de operaciones recuperados permanecen en un almacenamiento efímero en memoria durante toda la sesión y no se conservan ni se comparten. Una cadena de reserva multimodelo que abarca varias regiones de la nube garantiza la disponibilidad cuando el modelo principal está limitado o no está disponible, mientras que se aplican los mismos controles de seguridad en todos los modelos de reserva.
+
+
+
+[[data-handling-and-privacy]]
+== Tratamiento de datos y privacidad
+
+* Datos de usuario en las indicaciones: procesados por un servicio de IA gestionado que no utiliza tus entradas para entrenar ni mejorar los modelos base.
+* Contenido de la base de conocimientos: solo documentación seleccionada y publicada de NetApp; tus datos no están incluidos.
+* Datos operativos: se recuperan solo cuando un usuario consulta sus propios recursos; se almacenan de forma efímera en la memoria durante la sesión y no se guardan ni se comparten.
+* Registro de auditoría: se registran los metadatos de las consultas (ID de usuario anonimizado, marcas de tiempo, duraciones), con los campos sensibles eliminados.
+* Datos de comentarios: se almacenan por separado y se vinculan a un identificador de consulta, no a información que permita identificar personalmente más allá del identificador de usuario anonimizado.
+
+
+
+
+[[availability-and-isolation-controls]]
+== Controles de disponibilidad y aislamiento
+
+Ask Me utiliza una cadena de respaldo multimodelo que abarca varias regiones en la nube.
+
+Si el modelo principal se ve limitado o no está disponible, el sistema puede recurrir a modelos alternativos.
+
+Todos los modelos están sujetos a los mismos controles de seguridad, refuerzo de las indicaciones del sistema y garantías de aislamiento.

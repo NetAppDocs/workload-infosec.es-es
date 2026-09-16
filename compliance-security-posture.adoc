@@ -1,0 +1,18 @@
+---
+sidebar: sidebar 
+permalink: compliance-security-posture.html 
+keywords: compliance, security posture, SOC 2, HIPAA, FSx for ONTAP, AWS Well-Architected, AWS security features 
+summary: NetApp Workload Factory se ha diseñado con el cumplimiento normativo y la seguridad como prioridades fundamentales. 
+---
+= Cumplimiento y postura de seguridad para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory se ha diseñado teniendo como prioridades fundamentales el cumplimiento normativo y la seguridad. Todas las cargas de trabajo de Workload Factory se ejecutan en Amazon FSx for NetApp ONTAP. Además de link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/security.html["Funciones de seguridad de AWS"^], NetApp Workload Factory cuenta con link:https://trust.netapp.com/["SOC2 Type 1, SOC2 Type 2 e HIPAA compliance"^].
+
+Amazon FSx para NetApp ONTAP para NetApp Workload Factory es un link:https://aws.amazon.com/solutions/guidance/deploying-enterprise-apps-with-netapp-bluexp-workload-factory-for-aws-and-amazon-fsx-for-netapp-ontap/["Solución de AWS para la implementación de aplicaciones empresariales"^] y sigue las prácticas recomendadas de AWS Well-Architected.

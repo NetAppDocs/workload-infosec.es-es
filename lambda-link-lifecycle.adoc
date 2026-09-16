@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: lambda-link-lifecycle.html 
+keywords: Lambda link lifecycle, deployment, health monitoring, image updates, lambda UpdateFunctionCode, CloudFormation, Terraform, removal 
+summary: NetApp Workload Factory utiliza los controles del ciclo de vida de Lambda link para gestionar la implementación, el monitoreo del estado y las actualizaciones controladas de imágenes con una exposición operativa mínima. 
+---
+= Ciclo de vida del enlace Lambda para NetApp Workload Factory
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp Workload Factory utiliza los controles del ciclo de vida de Lambda link para gestionar el despliegue, la monitorización del estado y las actualizaciones controladas de imágenes con una exposición operativa mínima. Puedes actualizar la imagen del contenedor de Lambda link para implementar mejoras o parches de seguridad sin volver a desplegar la pila de Amazon CloudFormation, usando el permiso  `lambda:UpdateFunctionCode`. Los controles del ciclo de vida también definen cómo supervisar el estado del link y cómo eliminar Lambda link y sus recursos asociados cuando ya no los necesites.
+
+
+
+[[lifecycle-control-points]]
+== Puntos de control del ciclo de vida
+
+* Implementación: automatizada a través de Amazon CloudFormation o implementación de stack con Terraform
+* Supervisión: las comprobaciones de estado detectan problemas de conectividad; los contadores de fallos miden la fiabilidad
+* Eliminación: eliminar la pila CloudFormation elimina Lambda y los recursos asociados de tu cuenta de AWS
+
