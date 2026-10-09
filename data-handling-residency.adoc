@@ -64,7 +64,7 @@ Workload Factory almacena los siguientes datos:
 
 * Configuraciones de FSx, planes de equilibrio, configuraciones de ARP y límites de uso de IA
 * Credenciales temporales de AWS STS (almacenadas en caché en Redis), cachés de respuestas, bloqueos y estado de la implementación
-* CloudFormation/plantillas de Terraform, descriptores de configuración WAD e informes comprimidos
+* Plantillas de CloudFormation/Terraform, descriptores de configuración bien diseñados e informes comprimidos
 * Medición del uso de la IA y métricas de rendimiento del colector
 * Métricas agregadas de EDA
 * Registros de auditoría de acciones

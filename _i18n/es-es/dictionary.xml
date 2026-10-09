@@ -500,7 +500,6 @@
   <block id="ac252743de820aac9183d9f76d4bed67" category="section-title">Cuenta de NetApp</block>
   <block id="fa6063b1c2f2305250c0e4398ff9f643" category="list-text">Configuraciones de FSx, planes de equilibrio, configuraciones de ARP y límites de uso de IA</block>
   <block id="bf287b813cd334fda1fc42e415bf3dc7" category="list-text">Credenciales temporales de AWS STS (almacenadas en caché en Redis), cachés de respuestas, bloqueos y estado de la implementación</block>
-  <block id="f61c0a27e4ead4113f37e307fceeac09" category="list-text">CloudFormation/plantillas de Terraform, descriptores de configuración WAD e informes comprimidos</block>
   <block id="9f80825b2d67b8ccab25b67e670760f5" category="list-text">Medición del uso de la IA y métricas de rendimiento del colector</block>
   <block id="919e790bde6c7da375d06d2d8a044fef" category="list-text">Métricas agregadas de EDA</block>
   <block id="92d894d5716ae374c87da601cbacccdb" category="list-text">Registros de auditoría de acciones</block>
@@ -1215,4 +1214,5 @@
   <block id="4d9cde297d1c003eba9c5b3021d6839e" category="sidebar">Operaciones de ONTAP y Lambda link (componente de la VPC del cliente)</block>
   <block id="a3a6979c264d714e00c70c8cf88cc14b" category="sidebar">Ciclo de vida de un enlace Lambda</block>
   <block id="30d965eef5ba25c6b9998ae38270b43e" category="sidebar">Avisos legales</block>
+  <block id="e48f7b50b793847bd7a92cb2216e1751" category="list-text">Plantillas de CloudFormation/Terraform, descriptores de configuración bien diseñados e informes comprimidos</block>
 </blocks>
